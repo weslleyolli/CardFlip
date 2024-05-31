@@ -1,4 +1,4 @@
-import { CreditCardForm } from "./components/CreditCardForm";
+import  CreditCardForm  from "./components/CreditCardForm";
 
 export function Home() {
 

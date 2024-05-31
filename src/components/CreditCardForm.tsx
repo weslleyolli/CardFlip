@@ -1,13 +1,43 @@
-import React from 'react';
+// src/components/CreditCardForm.tsx
+import React, { useEffect } from 'react';
+import IMask, { MaskedRange } from 'imask';
 import '../style/styles.css';
 
-export const CreditCardForm: React.FC = () => {
+const CreditCardForm: React.FC = () => {
+  useEffect(() => {
+    const ccCvvElement = document.querySelector("#cc-cvv") as HTMLInputElement;
+    const ccNumberElement = document.querySelector("#cc-number") as HTMLInputElement;
+    const ccValidityElement = document.querySelector("#cc-validity") as HTMLInputElement;
+
+    if (ccCvvElement) {
+      IMask(ccCvvElement, { mask: "0000" });
+    }
+    if (ccNumberElement) {
+      IMask(ccNumberElement, { mask: '0000 0000 0000 0000' });
+    }
+    if (ccValidityElement) {
+      IMask(ccValidityElement, {
+        mask: 'MM{/}YY',
+        blocks: {
+          MM: {
+            mask: MaskedRange,
+            from: 1,
+            to: 12
+          },
+          YY: {
+            mask: MaskedRange,
+            from: parseInt(String(new Date().getFullYear()).slice(2), 10),
+            to: parseInt(String(new Date().getFullYear() + 10).slice(2), 10)
+          }
+        }
+      });
+    }
+  }, []);
+
   return (
     <form>
       <section id="credit-card">
-        <div className="front">
-            <img src="../assets/front" alt="" />
-        </div>
+        <div className="front"></div>
         <div className="back"></div>
       </section>
       <section className="inputs flex">
@@ -45,3 +75,4 @@ export const CreditCardForm: React.FC = () => {
   );
 };
 
+export default CreditCardForm;
